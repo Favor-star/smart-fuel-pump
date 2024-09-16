@@ -1,21 +1,28 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import React from "react";
-
+import { Image } from "react-native";
+import icons from "../constants/icons";
 interface ButtonProps {
   onPress: () => void;
   styles?: string;
   title: string;
-  icon?: React.ReactNode;
+  icon?: any;
+  otherStyles?: string;
 }
-const Button = ({ onPress, title, icon }: ButtonProps) => {
+const Button = ({ onPress, title, icon, otherStyles }: ButtonProps) => {
   return (
     <Pressable
       onPress={onPress}
-      className=" p-3 rounded-xl w-full max-w-[310px] bg-accent text white flex items-center justify-center"
+      className={`p-3 rounded-xl w-full  bg-accent text white flex items-center justify-center flex-row ${otherStyles}`}
     >
-      <Text className=" font-medium text-lg text-white ">{title}</Text>
+      <Text className=" font-medium text-lg text-white mx-5 ">{title}</Text>
+      {icon && <ImageIcon icon={icon} />}
     </Pressable>
   );
 };
 
 export default Button;
+
+const ImageIcon = ({ icon, tintColor }: { icon: any; tintColor?: string }) => {
+  return <Image source={icon} tintColor={(tintColor = "white")} />;
+};
