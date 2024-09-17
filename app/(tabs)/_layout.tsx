@@ -1,16 +1,99 @@
 import { View, Text } from "react-native";
 import React from "react";
 import { Tabs } from "expo-router";
-
+import icons from "@/constants/icons";
+import { Image } from "react-native";
 const TabsLayout = () => {
   return (
-    <Tabs>
-      <Tabs.Screen name="refill" options={{ headerShown: false }} />
-      <Tabs.Screen name="wallet" options={{ headerShown: false }} />
-      <Tabs.Screen name="history" options={{ headerShown: false }} />
-      <Tabs.Screen name="profile" options={{ headerShown: false }} />
+    <Tabs
+      screenOptions={{
+        tabBarShowLabel: false,
+        tabBarActiveTintColor: "#00B341",
+        tabBarStyle: {
+          height: 70,
+        },
+      }}
+    >
+      <Tabs.Screen
+        name="refill"
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              icon={icons.refill}
+              color={color}
+              focused={focused}
+              name="Refill"
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="wallet"
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              icon={icons.wallet}
+              color={color}
+              focused={focused}
+              name="Wallet"
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="history"
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              icon={icons.history}
+              color={color}
+              focused={focused}
+              name="History"
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              icon={icons.user}
+              color={color}
+              focused={focused}
+              name="Profile"
+            />
+          ),
+        }}
+      />
     </Tabs>
   );
 };
 
 export default TabsLayout;
+
+interface TabBarIconProps {
+  icon: any;
+  color: string;
+  focused: boolean;
+  name: string;
+}
+
+const TabBarIcon = ({ icon, color, focused, name }: TabBarIconProps) => {
+  return (
+    <View className="flex items-center justify-center">
+      <Image source={icon} tintColor={color} resizeMode="contain" />
+      <Text
+        className={`${
+          focused ? "font-bold text-accent" : "font-medium text-gray-active"
+        } text-xs`}
+      >
+        {name}
+      </Text>
+    </View>
+  );
+};

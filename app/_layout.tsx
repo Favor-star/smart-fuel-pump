@@ -8,16 +8,24 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
+import GrobalProvider from "../context/GlobalProvider";
 
-import { useColorScheme } from "@/hooks/useColorScheme";
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
   const [loaded] = useFonts({
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
+    "Poppins-Medium": require("../assets/fonts/Poppins-Medium.ttf"),
+    "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
+    "Poppins-SemiBold": require("../assets/fonts/Poppins-SemiBold.ttf"),
+    "Poppins-SemiBoldItalic": require("../assets/fonts/Poppins-SemiBoldItalic.ttf"),
+    "Poppins-Light": require("../assets/fonts/Poppins-Light.ttf"),
+    "Poppins-Thin": require("../assets/fonts/Poppins-Thin.ttf"),
+    "Poppins-ThinItalic": require("../assets/fonts/Poppins-ThinItalic.ttf"),
+    "Poppins-BoldItalic": require("../assets/fonts/Poppins-BoldItalic.ttf"),
+    "Poppins-Italic": require("../assets/fonts/Poppins-Italic.ttf"),
+    "Poppins-LightItalic": require("../assets/fonts/Poppins-LightItalic.ttf"),
+    "Poppins-MediumItalic": require("../assets/fonts/Poppins-MediumItalic.ttf"),
   });
 
   useEffect(() => {
@@ -31,9 +39,9 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+    <GrobalProvider>
       <Stack>
-        {/* <Stack.Screen name="(tabs)" options={{ headerShown: false }} /> */}
+        <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen
@@ -42,6 +50,6 @@ export default function RootLayout() {
         />
         <Stack.Screen name="+not-found" />
       </Stack>
-    </ThemeProvider>
+    </GrobalProvider>
   );
 }

@@ -3,8 +3,22 @@ module.exports = {
   content: ["./app/**/*.{js,jsx,ts,tsx}", "./components/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      fontFamily: {
+        pRegular: ['Poppins-Regular'],
+        pMedium: ['Poppins-Medium'],
+        pBold: ['Poppins-Bold'],
+        pSemiBold: ['Poppins-SemiBold'],
+        pSemiBoldItalic: ['Poppins-SemiBoldItalic'],
+        pLight: ['Poppins-Light'],
+        pThin: ['Poppins-Thin'],
+        pThinItalic: ['Poppins-ThinItalic'],
+        pBoldItalic: ['Poppins-BoldItalic'],
+        pItalic: ['Poppins-Italic'],
+        pLightItalic: ['Poppins-LightItalic'],
+        pMediumItalic: ['Poppins-MediumItalic'],
+      },
       colors: {
-        accent: "#008631",
+        accent: "#00B341",
         gray: {
           hover: "#E2E2E1",
           active: "#C2C3C1",

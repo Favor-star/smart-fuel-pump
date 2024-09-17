@@ -1,7 +1,8 @@
-import { View, Text, TextInput, Image } from "react-native";
+import { View, Text, TextInput, Image, TextInputProps } from "react-native";
 import React from "react";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
+import icons from "@/constants/icons";
 
 interface FormFieldProps {
   label: string;
@@ -10,6 +11,8 @@ interface FormFieldProps {
   handleChange: (text: string) => void;
   otherStyles?: string;
   inputStyles?: string;
+  keyBoardType?: TextInputProps["keyboardType"];
+  isNumeric?: boolean;
 }
 const FormField = ({
   label,
@@ -18,6 +21,8 @@ const FormField = ({
   handleChange,
   otherStyles,
   inputStyles,
+  keyBoardType = "default",
+  isNumeric = false,
 }: FormFieldProps) => {
   const [isHidden, setIsHidden] = useState(true);
 
@@ -25,13 +30,44 @@ const FormField = ({
     <View
       className={`w-full space-2 items-start justify-center ${otherStyles}`}
     >
-      <Text className="font-semibold">{label}</Text>
-      <TextInput
-        value={value}
-        onChangeText={handleChange}
-        placeholder={placeholder}
-        className={`p-4 w-full rounded-xl box-border self-start ${inputStyles}`}
-      />
+      <Text className="font-pSemiBold text-sm">{label}</Text>
+      <View
+        className={`flex-row items-center justify-between w-full rounded-xl box-border   ${inputStyles}`}
+      >
+        <TextInput
+          value={value}
+          onChangeText={handleChange}
+          placeholder={placeholder}
+          className={`p-3 flex-1 rounded-xl box-border self-start font-pRegular`}
+          secureTextEntry={
+            (label === "Password" || label === "Confirm Password") && isHidden
+          }
+          keyboardType={isNumeric ? "numeric" : keyBoardType}
+        />
+        {(label === "Password" || label === "Confirm Password") && (
+          <TouchableOpacity
+            onPress={() => setIsHidden(!isHidden)}
+            className="p-3"
+          >
+            {!isHidden && (
+              <Image
+                source={icons.eyeOff}
+                resizeMode="contain"
+                className="w-6 h-6"
+                tintColor={"black"}
+              />
+            )}
+            {isHidden && (
+              <Image
+                source={icons.eye}
+                resizeMode="contain"
+                className="w6 h-6"
+                tintColor={"black"}
+              />
+            )}
+          </TouchableOpacity>
+        )}
+      </View>
     </View>
   );
 };

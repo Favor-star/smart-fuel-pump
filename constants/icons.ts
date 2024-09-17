@@ -14,6 +14,8 @@ import arrowRight from "../assets/images/tabler-icon-arrow-narrow-right.png";
 import arrowLeft from "../assets/images/tabler-icon-arrow-narrow-left.png";
 import download from "../assets/images/tabler-icon-download.png";
 import pay from "../assets/images/tabler-icon-credit-card-pay.png";
+import eye from "../assets/images/tabler-icon-eye.png";
+import eyeOff from "../assets/images/tabler-icon-eye-off.png";
 export default {
   history,
   copy,
@@ -31,4 +33,6 @@ export default {
   arrowRight,
   download,
   pay,
+  eye,
+  eyeOff,
 };

@@ -24,16 +24,6 @@ const RefillPage = () => {
           <Text className="text-sm">You can manage the payments here</Text>
         </View>
         <View className=" w-full ">
-          {/* <Text className="text-lg font-semibold mt-3">Choose:</Text>
-        <View className=" w-full flex-row space-2 justify-between pt-2">
-          <TouchableOpacity className="p-3 rounded-md w-fit bg-gray-300">
-            <Text className="font-medium">Enter Amount</Text>
-          </TouchableOpacity>
-          <Text className="text-sm italic ">or</Text>
-          <TouchableOpacity className="flex flex-row p-3 w-fit bg-gray-300 rounded-md">
-            <Text className="font-medium">Enter Liters</Text>
-          </TouchableOpacity>
-        </View> */}
           <View className="w-full bg-background ">
             <Text className="text-lg font-semibold mt-3">
               Account Information:
