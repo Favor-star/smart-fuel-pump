@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import { useCallback, useId, useMemo, useState } from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
@@ -6,15 +6,18 @@ import FormField from "@/components/FormField";
 import Button from "@/components/CustomButton";
 import icons from "@/constants/icons";
 import { useGlobalContext } from "@/context/GlobalProvider";
+import { Alert } from "react-native";
 import { useEffect } from "react";
+import { createFuel } from "@/lib/appwrite";
+import { ActivityIndicator } from "react-native";
+import { generateToken } from "@/lib";
+
 const RefillPage = () => {
-  const [isUsingL, setIsUsingL] = React.useState(false);
-  const [value, setValue] = React.useState("");
-  const { isLoading, isLoggedIn } = useGlobalContext();
-  useEffect(() => {
-    console.log("isLoggedIn", isLoggedIn);
-    console.log("isLoading", isLoading);
-  }, [isLoading, isLoggedIn]);
+  const [isUsingL, setIsUsingL] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [value, setValue] = useState("");
+  const { isLoading, isLoggedIn, user } = useGlobalContext();
+  useEffect(() => {}, [isLoading, isLoggedIn]);
   const priceInfo = useMemo(() => {
     const numValue = Number(value);
     return {
@@ -25,22 +28,55 @@ const RefillPage = () => {
     };
   }, [isUsingL, value]);
 
-  const handleRefillComplete = useCallback(() => {
-    router.push("/success");
-  }, []);
+  const handleRefillComplete = async () => {
+    if (isSubmitting) return;
+    const { userId } = user as any;
+    console.log("For liters:", isUsingL);
+    if (isUsingL) {
+      if (priceInfo.liters <= 0) {
+        Alert.alert("Error", "Please enter a valid liters");
+        return;
+      }
+    } else {
+      if (priceInfo.amount <= 0) {
+        Alert.alert("Error", "Please enter valid amount");
+        return;
+      }
+    }
+
+    setIsSubmitting(true);
+    try {
+      const result = await createFuel(
+        priceInfo.amount,
+        priceInfo.liters,
+        priceInfo.price,
+        userId
+      );
+
+      const token = generateToken(priceInfo.liters);
+      router.replace({
+        pathname: "/success",
+        params: { token, liters: priceInfo.liters },
+      });
+    } catch (error) {
+      const newError = error as any;
+      Alert.alert("Error", newError.message || "An unknown error occurred");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const handleValueInput = useCallback(
     (newValue: string) => {
       setValue(newValue);
-      console.log(newValue, `${isUsingL ? "Liters" : "RWF"}`);
     },
     [isUsingL]
   );
 
-  const toggleIsUsingL = useCallback(() => {
-    setIsUsingL((prev) => !prev);
+  const toggleIsUsingL = (value: boolean) => {
+    setIsUsingL(value);
     setValue("");
-  }, []);
+  };
 
   return (
     <SafeAreaView className="h-screen p-3 w-full bg-background">
@@ -57,7 +93,7 @@ const RefillPage = () => {
             className={`p-3 rounded-md w-fit flex space-x-3 flex-row items-center justify-center ${
               isUsingL ? "bg-gray-300" : "bg-green-light-active "
             }`}
-            onPress={toggleIsUsingL}
+            onPress={() => toggleIsUsingL(false)}
           >
             <Text
               className={`${
@@ -86,14 +122,14 @@ const RefillPage = () => {
             className={`p-3 rounded-md w-fit flex space-x-3 flex-row items-center justify-center ${
               isUsingL ? "bg-green-light-active " : "bg-gray-300"
             }`}
-            onPress={toggleIsUsingL}
+            onPress={() => toggleIsUsingL(true)}
           >
             <Text
               className={`${
                 isUsingL ? "text-green-normal" : "text-black"
               } font-pSemiBold`}
             >
-              Enter Amount
+              Enter Liters
             </Text>
             {isUsingL ? (
               <Image
@@ -157,7 +193,7 @@ const RefillPage = () => {
             )}
             <View className="w-full justify-between flex-row mb-2">
               <Text className="font-pRegular">Price per liter</Text>
-              <Text className="font-pRegular">1000.00 RWF</Text>
+              <Text className="font-pRegular">{priceInfo.price} RWF</Text>
             </View>
             <View className="w-full justify-between flex-row mb-2">
               <Text className="font-pRegular">Discount: (0%)</Text>
@@ -188,7 +224,10 @@ const RefillPage = () => {
           title="Proces Payment"
           onPress={handleRefillComplete}
           icon={icons.arrowRight}
-        />
+          disabled={isSubmitting}
+        >
+          {isSubmitting && <ActivityIndicator size="small" color="#fff" />}
+        </Button>
         <Text className="text-xs mt-2">
           By continuing, you agree to the{" "}
           <Text className="text-accent ">terms and coniditions</Text>

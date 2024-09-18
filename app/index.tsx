@@ -10,8 +10,7 @@ export default function Index() {
   const router = useRouter();
   const { isLoading, isLoggedIn } = useGlobalContext();
   useEffect(() => {
-    console.log("isLoggedIn", isLoggedIn);
-    console.log("isLoading", isLoading);
+ 
   }, [isLoading, isLoggedIn]);
   if (!isLoading && isLoggedIn) return <Redirect href="/(tabs)/refill" />;
   return (

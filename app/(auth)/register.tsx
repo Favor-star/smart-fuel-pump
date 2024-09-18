@@ -48,7 +48,7 @@ export default function Register() {
         registerData.password,
         registerData.names
       );
-      console.log("User created:", result);
+
       router.replace("/(tabs)/refill");
     } catch (error) {
       console.error("Error in handleRegister:", error);

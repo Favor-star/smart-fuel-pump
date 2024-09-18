@@ -27,9 +27,9 @@ const Button = ({
     >
       {children}
       <Text className=" font-medium text-lg text-white mx-5 font-pMedium ">
-        {title}
+        {!disabled && title}
       </Text>
-      {icon && <ImageIcon icon={icon} />}
+      {icon && !disabled && <ImageIcon icon={icon} />}
     </Pressable>
   );
 };

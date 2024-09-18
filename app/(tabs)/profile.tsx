@@ -11,7 +11,7 @@ import { Image } from "react-native";
 import { ScrollView } from "react-native";
 import { useGlobalContext } from "@/context/GlobalProvider";
 const RefillPage = () => {
-  const {setIsLoggedIn } = useGlobalContext();
+  const { setIsLoggedIn, user } = useGlobalContext();
   const [isLoggedOut, setIsLoggedOut] = useState(false);
   const handleRefillComplete = () => {
     router.push("/success");
