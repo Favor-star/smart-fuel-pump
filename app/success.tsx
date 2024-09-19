@@ -1,12 +1,13 @@
 import React, { useRef } from "react";
-import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
+import { View, Text, TouchableOpacity, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import QrCode from "react-native-qrcode-svg";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import ViewShot from "react-native-view-shot";
 import * as MediaLibrary from "expo-media-library";
 import icons from "@/constants/icons";
-import { useNavigation } from "expo-router";
+
+import { ImageIcon } from "@/components/CustomButton";
 
 const SuccessPage = () => {
   const router = useRouter();
@@ -64,13 +65,9 @@ const SuccessPage = () => {
                   {formattedToken}
                 </Text>
                 <View className="bg-black p-2">
-                  <Image
-                    source={icons.copy}
-                    style={{
-                      height: 30,
-                      width: 30,
-                      objectFit: "contain",
-                    }}
+                  <ImageIcon
+                    icon={icons.Copy}
+                   
                     tintColor={"white"}
                   />
                 </View>
@@ -82,7 +79,7 @@ const SuccessPage = () => {
               className="flex-row items-center justify-center space-x-2 rounded-lg bg-gray-active textblack p-3 flex-1"
               onPress={() => router.push("/refill")}
             >
-              <Image source={icons.arrowLeft} tintColor={"black"} />
+              <ImageIcon icon={icons.MoveLeft} tintColor={"black"} />
               <Text className="text-black font-medium">Back</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -90,7 +87,7 @@ const SuccessPage = () => {
               onPress={captureAndSave}
             >
               <Text className="text-white font-medium">Download QR</Text>
-              <Image source={icons.download} tintColor={"white"} />
+              <ImageIcon icon={icons.Download} tintColor={"white"} />
             </TouchableOpacity>
           </View>
         </View>

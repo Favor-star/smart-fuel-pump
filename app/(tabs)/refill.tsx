@@ -11,27 +11,28 @@ import { useEffect } from "react";
 import { createFuel } from "@/lib/appwrite";
 import { ActivityIndicator } from "react-native";
 import { generateToken } from "@/lib";
+import { ImageIcon } from "@/components/CustomButton";
 
 const RefillPage = () => {
   const [isUsingL, setIsUsingL] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [equivalent, setEquivalent] = useState(0);
   const [value, setValue] = useState("");
   const { isLoading, isLoggedIn, user } = useGlobalContext();
-  useEffect(() => {}, [isLoading, isLoggedIn]);
+
   const priceInfo = useMemo(() => {
     const numValue = Number(value);
     return {
       price: 1200,
-      amount: isUsingL ? 0 : numValue,
-      liters: isUsingL ? numValue : 0,
+      amount: isUsingL ? equivalent : numValue,
+      liters: isUsingL ? numValue : equivalent,
       total: numValue * 1000,
     };
-  }, [isUsingL, value]);
+  }, [isUsingL, value, equivalent]);
 
   const handleRefillComplete = async () => {
     if (isSubmitting) return;
     const { userId } = user as any;
-    console.log("For liters:", isUsingL);
     if (isUsingL) {
       if (priceInfo.liters <= 0) {
         Alert.alert("Error", "Please enter a valid liters");
@@ -43,7 +44,6 @@ const RefillPage = () => {
         return;
       }
     }
-
     setIsSubmitting(true);
     try {
       const result = await createFuel(
@@ -70,13 +70,22 @@ const RefillPage = () => {
     (newValue: string) => {
       setValue(newValue);
     },
-    [isUsingL]
+    [isUsingL, value]
   );
 
   const toggleIsUsingL = (value: boolean) => {
     setIsUsingL(value);
     setValue("");
   };
+  useEffect(() => {
+    const amountVal = priceInfo.liters * priceInfo.price;
+    const literVal = (priceInfo.amount / priceInfo.price).toFixed(2);
+    setEquivalent(
+      isUsingL
+        ? priceInfo.liters * priceInfo.price
+        : Number((priceInfo.amount / priceInfo.price).toFixed(2))
+    );
+  }, [priceInfo]);
 
   return (
     <SafeAreaView className="h-screen p-3 w-full bg-background">
@@ -103,23 +112,22 @@ const RefillPage = () => {
               Enter Amount
             </Text>
             {!isUsingL ? (
-              <Image
-                source={icons.checked}
-                resizeMode="contain"
-                className="w-4 h-4"
-                tintColor={"#00B341"}
+              <ImageIcon
+                icon={icons.CircleCheck}
+                style={{ width: 12, height: 12 }}
+                tintColor="#00B341"
               />
             ) : (
-              <Image
-                source={icons.unchecked}
-                resizeMode="contain"
-                className="w-3 h-3"
+              <ImageIcon
+                icon={icons.Circle}
+                style={{ width: 12, height: 12 }}
+                tintColor="black"
               />
             )}
           </TouchableOpacity>
           <Text className="font-pRegular ">or</Text>
           <TouchableOpacity
-            className={`p-3 rounded-md w-fit flex space-x-3 flex-row items-center justify-center ${
+            className={`p-3 rounded-md w-fit flex space-x-3  flex-row items-center justify-center ${
               isUsingL ? "bg-green-light-active " : "bg-gray-300"
             }`}
             onPress={() => toggleIsUsingL(true)}
@@ -132,17 +140,16 @@ const RefillPage = () => {
               Enter Liters
             </Text>
             {isUsingL ? (
-              <Image
-                source={icons.checked}
-                resizeMode="contain"
-                className="w-4 h-4"
-                tintColor={"#00B341"}
+              <ImageIcon
+                icon={icons.CircleCheck}
+                style={{ width: 12, height: 12 }}
+                tintColor="#00B341"
               />
             ) : (
-              <Image
-                source={icons.unchecked}
-                resizeMode="contain"
-                className="w-3 h-3"
+              <ImageIcon
+                icon={icons.Circle}
+                style={{ width: 8, height: 8 }}
+                tintColor="black"
               />
             )}
           </TouchableOpacity>
@@ -223,7 +230,7 @@ const RefillPage = () => {
         <Button
           title="Proces Payment"
           onPress={handleRefillComplete}
-          icon={icons.arrowRight}
+          icon={icons.MoveRight}
           disabled={isSubmitting}
         >
           {isSubmitting && <ActivityIndicator size="small" color="#fff" />}

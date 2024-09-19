@@ -1,29 +1,29 @@
-import { View, Text, TouchableOpacity, Pressable } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useState } from "react";
 import { router, Redirect } from "expo-router";
 import FormField from "@/components/FormField";
-import Button from "@/components/CustomButton";
+
 import { logout } from "@/lib/appwrite";
 import icons from "@/constants/icons";
-import { Image } from "react-native";
+
 import { ScrollView } from "react-native";
 import { useGlobalContext } from "@/context/GlobalProvider";
+import { ImageIcon } from "@/components/CustomButton";
+
+import { Models } from "react-native-appwrite";
+
+interface CustomUser extends Models.User<Models.Preferences> {
+  names?: string;
+}
 const RefillPage = () => {
   const { setIsLoggedIn, user } = useGlobalContext();
-  const [isLoggedOut, setIsLoggedOut] = useState(false);
-  const handleRefillComplete = () => {
-    router.push("/success");
-  };
-  const [amount, setAmount] = useState(0);
-  const handleChange = (text: string) => {
-    setAmount(parseInt(text) || 0);
+  const { names: userName, email: userEmail } = user as CustomUser;
+  const handleChange = (text: string) => { 
   };
   const handleLogout = async () => {
     await logout();
     router.replace("/");
-    setIsLoggedOut(true);
     setIsLoggedIn(false);
   };
 
@@ -42,11 +42,11 @@ const RefillPage = () => {
             <View className="w-full p-4 bg-white rounded-xl  h-fit items-center justify-center">
               <View className="w-full justify-between flex-row mb-2">
                 <Text className="font-pRegular">Name:</Text>
-                <Text className="font-pSemiBold">John Doe</Text>
+                <Text className="font-pSemiBold">{userName}</Text>
               </View>
               <View className="w-full justify-between flex-row mb-2">
                 <Text className="font-pRegular">Email:</Text>
-                <Text className="font-pSemiBold">johndoe@gmail.com</Text>
+                <Text className="font-pSemiBold">{userEmail}</Text>
               </View>
             </View>
           </View>
@@ -56,7 +56,7 @@ const RefillPage = () => {
             <FormField
               label="Full Name"
               value={""}
-              placeholder="name"
+              placeholder={userName || ""}
               handleChange={handleChange}
               otherStyles="w-full mb-5"
               inputStyles="bg-white border border-gray-active"
@@ -64,7 +64,7 @@ const RefillPage = () => {
             <FormField
               label="Email"
               value={""}
-              placeholder="Email"
+              placeholder={userEmail || ""}
               handleChange={handleChange}
               otherStyles="w-full mb-5"
               inputStyles="bg-white border border-gray-active"
@@ -79,17 +79,17 @@ const RefillPage = () => {
             />
           </View>
           <View className="w-full items-center justify-center self-center flex-row space-x-3 mt-5">
-            <TouchableOpacity className=" p-3 flex-1 bg-gray-active rounded-xl flex flex-row spacex-2 justify-center items-center ">
-              <Text className="text-black text-center font-pSemiBold">
+            <TouchableOpacity className=" p-3 flex-1 bg-gray-active rounded-xl flex flex-row spacex-2 justify-center items-center space-x-3 ">
+              <Text className="text-black text-center font-pSemiBold ">
                 Discard
               </Text>
-              <Image source={icons.backspace} tintColor={"black"} />
+              <ImageIcon icon={icons.Delete} tintColor={"black"} />
             </TouchableOpacity>
             <TouchableOpacity className="flex-1 p-3 bg-green-normal rounded-xl flex flex-row space-x-2 justify-center items-center">
               <Text className="text-white text-center font-pSemiBold">
                 Save
               </Text>
-              <Image source={icons.save} tintColor={"white"} />
+              <ImageIcon icon={icons.Save} tintColor={"white"} />
             </TouchableOpacity>
           </View>
         </View>

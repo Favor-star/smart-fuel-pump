@@ -2,13 +2,15 @@ import { View, Text } from "react-native";
 import React from "react";
 import { Tabs } from "expo-router";
 import icons from "@/constants/icons";
-import { Image } from "react-native";
+
+import { ImageIcon } from "@/components/CustomButton";
 const TabsLayout = () => {
   return (
     <Tabs
       screenOptions={{
         tabBarShowLabel: false,
         tabBarActiveTintColor: "#00B341",
+
         tabBarStyle: {
           height: 70,
         },
@@ -20,7 +22,7 @@ const TabsLayout = () => {
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
-              icon={icons.refill}
+              icon={icons.Fuel}
               color={color}
               focused={focused}
               name="Refill"
@@ -34,7 +36,7 @@ const TabsLayout = () => {
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
-              icon={icons.wallet}
+              icon={icons.Wallet}
               color={color}
               focused={focused}
               name="Wallet"
@@ -48,7 +50,7 @@ const TabsLayout = () => {
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
-              icon={icons.history}
+              icon={icons.ChartNoAxesCombined}
               color={color}
               focused={focused}
               name="History"
@@ -62,7 +64,7 @@ const TabsLayout = () => {
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
-              icon={icons.user}
+              icon={icons.User}
               color={color}
               focused={focused}
               name="Profile"
@@ -86,11 +88,13 @@ interface TabBarIconProps {
 const TabBarIcon = ({ icon, color, focused, name }: TabBarIconProps) => {
   return (
     <View className="flex items-center justify-center">
-      <Image source={icon} tintColor={color} resizeMode="contain" />
+      <ImageIcon icon={icon} tintColor={color} />
       <Text
         className={`${
-          focused ? "font-bold text-accent" : "font-medium text-gray-active"
-        } text-xs`}
+          focused
+            ? "font-pSemiBold text-accent"
+            : "font-medium text-gray-normal"
+        } text-xs font-pRegular`}
       >
         {name}
       </Text>

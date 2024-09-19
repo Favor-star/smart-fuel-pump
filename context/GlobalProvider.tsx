@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { getCurrentUser } from "@/lib/appwrite";
 import { Models } from "react-native-appwrite";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Define the shape of your context
 interface GlobalContextType {
@@ -23,7 +23,6 @@ const GlobalContext = createContext<GlobalContextType>({
   setIsLoggedIn: () => {},
 });
 
-
 export const useGlobalContext = () => useContext(GlobalContext);
 
 export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -38,7 +37,8 @@ export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     const checkUserSession = async () => {
       try {
-        const storedUser = await AsyncStorage.getItem('user');
+        const storedUser = await AsyncStorage.getItem("user");
+        // console.log(storedUser);
         if (storedUser) {
           setUser(JSON.parse(storedUser));
           setIsLoggedIn(true);
@@ -47,11 +47,11 @@ export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
           if (currentUser) {
             setUser(currentUser as unknown as Models.User<Models.Preferences>);
             setIsLoggedIn(true);
-            await AsyncStorage.setItem('user', JSON.stringify(currentUser));
+            await AsyncStorage.setItem("user", JSON.stringify(currentUser));
           }
         }
       } catch (error) {
-        console.error('Error checking user session:', error);
+        console.error("Error checking user session:", error);
       } finally {
         setIsLoading(false);
       }

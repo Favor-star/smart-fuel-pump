@@ -161,7 +161,7 @@ export default function Register() {
             onPress={handleRegister}
             title="Register"
             otherStyles="mb-4"
-            icon={icons.login}
+            icon={icons.UserRoundPlus}
             disabled={isSubmitting}
           >
             {isSubmitting && <ActivityIndicator size="small" color="#fff" />}

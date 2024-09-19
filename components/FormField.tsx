@@ -1,8 +1,9 @@
-import { View, Text, TextInput, Image, TextInputProps } from "react-native";
+import { View, Text, TextInput, TextInputProps } from "react-native";
 import React from "react";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import icons from "@/constants/icons";
+import { ImageIcon } from "./CustomButton";
 
 interface FormFieldProps {
   label: string;
@@ -49,22 +50,8 @@ const FormField = ({
             onPress={() => setIsHidden(!isHidden)}
             className="p-3"
           >
-            {!isHidden && (
-              <Image
-                source={icons.eyeOff}
-                resizeMode="contain"
-                className="w-6 h-6"
-                tintColor={"black"}
-              />
-            )}
-            {isHidden && (
-              <Image
-                source={icons.eye}
-                resizeMode="contain"
-                className="w6 h-6"
-                tintColor={"black"}
-              />
-            )}
+            {!isHidden && <ImageIcon icon={icons.EyeOff} tintColor={"black"} />}
+            {isHidden && <ImageIcon icon={icons.Eye} tintColor={"black"} />}
           </TouchableOpacity>
         )}
       </View>

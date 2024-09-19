@@ -11,6 +11,7 @@ import {} from "react-native";
 import { useState } from "react";
 import { Alert } from "react-native";
 import { signin } from "@/lib/appwrite";
+import { Camera, LogIn } from "lucide-react-native";
 
 export default function Login() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -74,17 +75,18 @@ export default function Login() {
             <Button
               onPress={handleLogin}
               title="Login"
-              icon={icons.login}
+              icon={icons.LogIn}
               disabled={isSubmitting}
             >
               {isSubmitting && <ActivityIndicator size="small" color="#fff" />}
             </Button>
           </View>
           <View className="space-y-2 self-center">
-            <Text className="text-xs font-pRegular text-center self-center mt-1 text-red-500 ">
+            {/* <Text className="text-xs font-pRegular text-center self-center mt-1 text-red-500 ">
               this is error section
-            </Text>
-            <Text className="font-pRegular">
+            </Text> */}
+
+            <Text className="font-pRegular mt-5">
               Don't have an account?{" "}
               <Link href="/register" className="text-green-600 font-semibold">
                 Register

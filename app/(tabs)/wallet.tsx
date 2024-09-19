@@ -75,7 +75,7 @@ const RefillPage = () => {
               title="Process Deposit"
               onPress={() => console.log("Payment processes")}
               otherStyles="mt-5"
-              icon={icons.pay}
+              icon={icons.HandCoins}
             />
             <Text className="text-xs mt-1 text-center">
               By continuing, you agree to the

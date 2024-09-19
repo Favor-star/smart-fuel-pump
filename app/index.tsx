@@ -5,6 +5,7 @@ import {} from "expo-router";
 import { Text, View } from "react-native";
 import Button from "@/components/CustomButton";
 import { useGlobalContext } from "@/context/GlobalProvider";
+import { MoveRight } from "lucide-react-native";
 
 export default function Index() {
   const router = useRouter();
@@ -38,6 +39,8 @@ export default function Index() {
           title={"Proceed"}
           onPress={() => router.push("/login")}
           otherStyles="max-w-[400px]"
+          icon={MoveRight}
+
         />
       </View>
     </SafeAreaView>

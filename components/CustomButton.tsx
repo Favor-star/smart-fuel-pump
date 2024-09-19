@@ -1,7 +1,9 @@
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import { Text, Pressable } from "react-native";
 import React from "react";
-import { Image } from "react-native";
-import icons from "../constants/icons";
+
+
+import { StyleProp, ViewStyle } from "react-native";
+
 interface ButtonProps {
   onPress: () => void;
   styles?: string;
@@ -11,6 +13,7 @@ interface ButtonProps {
   children?: React.ReactNode;
   disabled?: boolean;
 }
+
 const Button = ({
   onPress,
   title,
@@ -36,6 +39,32 @@ const Button = ({
 
 export default Button;
 
-const ImageIcon = ({ icon, tintColor }: { icon: any; tintColor?: string }) => {
-  return <Image source={icon} tintColor={(tintColor = "white")} />;
+// const ImageIcon = ({ icon, tintColor }: { icon: any; tintColor?: string }) => {
+//   return <Image source={icon} tintColor={(tintColor = "white")} />;
+// };
+
+export const ImageIcon = ({
+  icon: Icon,
+  tintColor = "white",
+  style,
+}: {
+  icon: React.ComponentType<any>;
+  tintColor?: string;
+  style?: StyleProp<ViewStyle>;
+}) => {
+  return <Icon style={[{ color: tintColor }, style]} />;
 };
+
+const Image2Icon = ({
+  icon: Icon,
+  tintColor = "white",
+  style,
+}: {
+  icon: React.ComponentType<any>;
+  tintColor?: string;
+  style?: StyleProp<ViewStyle>;
+}) => {
+  return <Icon style={[{ color: tintColor }, style]} />;
+};
+
+// export default Image2Icon;
