@@ -85,7 +85,7 @@ interface TabBarIconProps {
   name: string;
 }
 
-const TabBarIcon = ({ icon, color, focused, name }: TabBarIconProps) => {
+export const TabBarIcon = ({ icon, color, focused, name }: TabBarIconProps) => {
   return (
     <View className="flex items-center justify-center">
       <ImageIcon icon={icon} tintColor={color} />

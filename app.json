@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "smart-fuel-pump",
+    "name": "Smart Fuel Pump",
     "slug": "smart-fuel-pump",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -44,6 +44,14 @@
             "./assets/fonts/Poppins-Regular.ttf",
             "./assets/fonts/Poppins-SemiBold.ttf"
           ]
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera",
+          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone",
+          "recordAudioAndroid": true
         }
       ],
       [

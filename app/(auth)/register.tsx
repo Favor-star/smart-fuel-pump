@@ -17,6 +17,7 @@ import Button from "@/components/CustomButton";
 import { Link } from "expo-router";
 import icons from "@/constants/icons";
 import { createUser, checkActiveSession, logout } from "@/lib/appwrite";
+import { StatusBar } from "expo-status-bar";
 export default function Register() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [registerData, setRegisterData] = useState({
@@ -48,7 +49,6 @@ export default function Register() {
         registerData.password,
         registerData.names
       );
-
       router.replace("/(tabs)/refill");
     } catch (error) {
       console.error("Error in handleRegister:", error);
@@ -180,6 +180,7 @@ export default function Register() {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
+      <StatusBar style="dark"/>
     </SafeAreaView>
   );
 }

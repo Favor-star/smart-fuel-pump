@@ -12,6 +12,7 @@ import { useState } from "react";
 import { Alert } from "react-native";
 import { signin } from "@/lib/appwrite";
 import { Camera, LogIn } from "lucide-react-native";
+import { StatusBar } from "expo-status-bar";
 
 export default function Login() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -34,6 +35,10 @@ export default function Login() {
     setIsSubmitting(true);
     try {
       const result = await signin(loginData.email, loginData.password);
+      if (loginData.email === "favoureliab@gmail.com") {
+        router.replace("/(tabsAdmin)/scanCode");
+        return;
+      }
       router.replace("/(tabs)/refill");
     } catch (error) {
       console.log(error);
@@ -95,6 +100,7 @@ export default function Login() {
           </View>
         </View>
       </SafeAreaView>
+      <StatusBar style="dark" />
     </ScrollView>
   );
 }

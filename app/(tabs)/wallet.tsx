@@ -7,6 +7,7 @@ import FormField from "@/components/FormField";
 import Button from "@/components/CustomButton";
 import icons from "@/constants/icons";
 import { ScrollView } from "react-native";
+import { StatusBar } from "expo-status-bar";
 const RefillPage = () => {
   const handleRefillComplete = () => {
     router.push("/success");
@@ -17,11 +18,15 @@ const RefillPage = () => {
     setAmount(parseInt(text) || 0);
   };
   return (
-    <ScrollView>
-      <SafeAreaView className="h-screen p-3 w-full bg-background">
+    <SafeAreaView className="h-screen px-3 pt-1 w-full bg-background">
+      <ScrollView className="w-full">
         <View className="w-full">
-          <Text className="text-2xl font-semibold">Manage your payments</Text>
-          <Text className="text-sm">You can manage the payments here</Text>
+          <Text className="text-2xl font-pSemiBold mt-1">
+            Manage your payments
+          </Text>
+          <Text className="text-xs font-pRegular">
+            You can manage the payments here
+          </Text>
         </View>
         <View className=" w-full ">
           <View className="w-full bg-background ">
@@ -44,14 +49,14 @@ const RefillPage = () => {
               </View>
             </View>
           </View>
-          <Text className="text-lg font-semibold mt-3">Choose:</Text>
-          <View className=" w-full flex-row space-2 justify-between pt-2">
+          <Text className="text-sm font-pSemiBold mt-3">Choose:</Text>
+          <View className=" w-full flex-row space-2 justify-between items-center pt-2">
             <TouchableOpacity className="p-3 rounded-md w-fit bg-gray-300">
-              <Text className="font-medium">MTN momo</Text>
+              <Text className="font-pMedium">MTN momo</Text>
             </TouchableOpacity>
-            <Text className="text-sm italic ">or</Text>
+            <Text className="text-sm font-pRegular">or</Text>
             <TouchableOpacity className="flex flex-row p-3 w-fit bg-gray-300 rounded-md">
-              <Text className="font-medium">Bank Account</Text>
+              <Text className="font-pMedium">Bank Account</Text>
             </TouchableOpacity>
           </View>
           <View className="pt-5 ">
@@ -108,10 +113,10 @@ const RefillPage = () => {
           </View> */}
         </View>
         <View>
-          <Text className="text-lg font-semibold mt-5">
+          <Text className="text-base font-pSemiBold mt-5">
             Convert Credits to Payables
           </Text>
-          <Text>
+          <Text className="text-xs font-pRegular ">
             Whenever you buy, you receive credits, equivalent to how many liters
             you have bought.
           </Text>
@@ -130,11 +135,12 @@ const RefillPage = () => {
         >
           <Text className="text-green-light-active text-lg">Convert</Text>
         </Pressable>
-        <Text className="text-xs mt-1 text-center text-red-500">
+        <Text className="text-xs mt-1 text-center text-red-500 mb-14">
           Minimum of 500 credits can be converted
         </Text>
-      </SafeAreaView>
-    </ScrollView>
+      </ScrollView>
+      <StatusBar style="dark" />
+    </SafeAreaView>
   );
 };
 

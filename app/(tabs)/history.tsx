@@ -1,26 +1,18 @@
-import React, {
-  useEffect,
-  useMemo,
-  useState,
-  useCallback,
-} from "react";
-import {
-  View,
-  Text,
- 
-  FlatList,
-  ActivityIndicator,
-} from "react-native";
+import React, { useEffect, useMemo, useState, useCallback } from "react";
+import { View, Text, FlatList, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { getFuel } from "@/lib/appwrite";
 import icons from "@/constants/icons";
 import { ImageIcon } from "@/components/CustomButton";
 import { useGlobalContext } from "@/context/GlobalProvider";
+import { StatusBar } from "expo-status-bar";
 
 const HistoryPage = () => {
   const [fuelData, setFuelData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
- const [latest, setLatest] = useState<{ amount?: number; liters?: number }>({});
+  const [latest, setLatest] = useState<{ amount?: number; liters?: number }>(
+    {}
+  );
   const [error, setError] = useState(null);
   const { user } = useGlobalContext();
 
@@ -29,7 +21,7 @@ const HistoryPage = () => {
     setIsLoading(true);
     try {
       const result = (await getFuel()).reverse();
-       setLatest({ amount: result[0]?.amount, liters: result[0]?.liters });
+      setLatest({ amount: result[0]?.amount, liters: result[0]?.liters });
       setFuelData(result as never[]);
     } catch (err) {
       const newError = err as any;
@@ -137,6 +129,7 @@ const HistoryPage = () => {
           </TouchableOpacity>
         </View>
       </View> */}
+      <StatusBar style="dark" />
     </SafeAreaView>
   );
 };

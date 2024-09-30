@@ -38,6 +38,8 @@ import {
   LogOut,
   ChartNoAxesCombined,
   Fuel,
+  SlidersHorizontal,
+  ScanQrCode,
 } from "lucide-react-native";
 
 export default {
@@ -61,4 +63,6 @@ export default {
   ChartNoAxesCombined,
   Fuel,
   LogOut,
+  ScanQrCode,
+  SlidersHorizontal,
 };

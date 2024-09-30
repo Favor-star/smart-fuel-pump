@@ -6,7 +6,7 @@ import FormField from "@/components/FormField";
 
 import { logout } from "@/lib/appwrite";
 import icons from "@/constants/icons";
-
+import { StatusBar } from "expo-status-bar";
 import { ScrollView } from "react-native";
 import { useGlobalContext } from "@/context/GlobalProvider";
 import { ImageIcon } from "@/components/CustomButton";
@@ -19,8 +19,7 @@ interface CustomUser extends Models.User<Models.Preferences> {
 const RefillPage = () => {
   const { setIsLoggedIn, user } = useGlobalContext();
   const { names: userName, email: userEmail } = user as CustomUser;
-  const handleChange = (text: string) => { 
-  };
+  const handleChange = (text: string) => {};
   const handleLogout = async () => {
     await logout();
     router.replace("/");
@@ -28,8 +27,8 @@ const RefillPage = () => {
   };
 
   return (
-    <ScrollView>
-      <SafeAreaView className="h-screen p-3 w-full bg-background">
+    <SafeAreaView className="h-screen px-3 pt-1 w-full bg-background">
+      <ScrollView className="w-full ">
         <View className="w-full">
           <Text className="text-2xl font-pSemiBold">User Management</Text>
           <Text className="text-sm font-pRegular">
@@ -48,6 +47,16 @@ const RefillPage = () => {
                 <Text className="font-pRegular">Email:</Text>
                 <Text className="font-pSemiBold">{userEmail}</Text>
               </View>
+              {userEmail === "favoureliab@gmail.com" && (
+                <View>
+                  <TouchableOpacity
+                    className=" w-full flex items-center justify-center py-3 rounded-xl bg-gray-hover border border-gray-active px-7 "
+                    onPress={() => router.push("/(tabsAdmin)/scanCode")}
+                  >
+                    <Text className="font-pSemiBold">Admin</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
             </View>
           </View>
           <Text className="text-lg font-pSemiBold mt-3">Edit your info:</Text>
@@ -93,7 +102,7 @@ const RefillPage = () => {
             </TouchableOpacity>
           </View>
         </View>
-        <View className="w-full mt-10">
+        <View className="w-full mt-10 mb-14">
           <Text className=" font-pSemiBold"> Actions</Text>
           <Text className="font-pRegular">
             Manage actions related to deleting, or logging out here
@@ -112,8 +121,9 @@ const RefillPage = () => {
             </TouchableOpacity>
           </View>
         </View>
-      </SafeAreaView>
-    </ScrollView>
+      </ScrollView>
+      <StatusBar style="dark" />
+    </SafeAreaView>
   );
 };
 
