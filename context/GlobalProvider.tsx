@@ -5,6 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Define the shape of your context
 interface GlobalContextType {
+  ipAddress: string;
   isLoading: boolean;
   isLoggedIn: boolean;
   user: Models.User<Models.Preferences> | null;
@@ -12,15 +13,18 @@ interface GlobalContextType {
     React.SetStateAction<Models.User<Models.Preferences> | null>
   >;
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+  setIpAddress: React.Dispatch<React.SetStateAction<string>>;
 }
 
 // Create the context with a default value
 const GlobalContext = createContext<GlobalContextType>({
+  ipAddress: "",
   isLoading: true,
   isLoggedIn: false,
   user: null,
   setUser: () => {},
   setIsLoggedIn: () => {},
+  setIpAddress: () => {},
 });
 
 export const useGlobalContext = () => useContext(GlobalContext);
@@ -28,6 +32,7 @@ export const useGlobalContext = () => useContext(GlobalContext);
 export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const [ipAddress, setIpAddress] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<Models.User<Models.Preferences> | null>(
     null
@@ -38,7 +43,7 @@ export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
     const checkUserSession = async () => {
       try {
         const storedUser = await AsyncStorage.getItem("user");
-        // console.log(storedUser);
+       
         if (storedUser) {
           setUser(JSON.parse(storedUser));
           setIsLoggedIn(true);
@@ -56,11 +61,12 @@ export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
         setIsLoading(false);
       }
     };
-
     checkUserSession();
   }, []);
 
   const value: GlobalContextType = {
+    ipAddress,
+    setIpAddress,
     isLoading,
     isLoggedIn,
     user,

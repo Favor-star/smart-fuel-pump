@@ -36,12 +36,12 @@ export default function Login() {
     try {
       const result = await signin(loginData.email, loginData.password);
       if (loginData.email === "favoureliab@gmail.com") {
-        router.replace("/(tabsAdmin)/scanCode");
+        router.replace("/(tabs)/profile");
         return;
       }
       router.replace("/(tabs)/refill");
     } catch (error) {
-      console.log(error);
+      console.error(error);
       const newError = error as any;
       Alert.alert("Error", newError.message);
     } finally {

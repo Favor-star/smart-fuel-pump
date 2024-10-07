@@ -7,14 +7,33 @@ import icons from "@/constants/icons";
 import { ImageIcon } from "@/components/CustomButton";
 import { ScrollView } from "react-native";
 import { StatusBar } from "expo-status-bar";
+import { useGlobalContext } from "@/context/GlobalProvider";
 
 const SuccessPage = () => {
+  const { ipAddress } = useGlobalContext();
   const router = useRouter();
 
   const { liters } = useLocalSearchParams<{
     liters: string;
   }>();
 
+  const handlePumping = async () => {
+    if (ipAddress === "") {
+      router.push("/(tabsAdmin)/manage");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://${ipAddress}/liters/value=${liters}`
+      );
+      const result = await response.json();
+      Alert.alert(result);
+    } catch (error) {
+      const newError = error as any;
+      Alert.alert(newError);
+    }
+  };
   const viewShotRef = useRef<ViewShot | null>(null);
 
   return (
@@ -58,7 +77,7 @@ const SuccessPage = () => {
             </TouchableOpacity> */}
               <TouchableOpacity
                 className="flex-row items-center justify-center space-x-2 rounded-lg bg-green-normal textblack p-3 flex-1"
-                onPress={() => {}}
+                onPress={handlePumping}
               >
                 <Text className="text-white font-medium">Authorize Pump</Text>
                 <ImageIcon icon={icons.Fuel} tintColor={"white"} />

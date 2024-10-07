@@ -1,5 +1,5 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import React from "react";
+import { View, Text, TouchableOpacity, Alert } from "react-native";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView } from "react-native";
 import icons from "@/constants/icons";
@@ -7,9 +7,28 @@ import { ImageIcon } from "@/components/CustomButton";
 import { useRouter } from "expo-router";
 import FormField from "@/components/FormField";
 import { StatusBar } from "expo-status-bar";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useGlobalContext } from "@/context/GlobalProvider";
 
 const manage = () => {
+  const { ipAddress: IP, setIpAddress: setIP } = useGlobalContext();
   const router = useRouter();
+  const handleIPSave = async () => {
+    // const storedIP = await AsyncStorage.getItem("IP");
+    if (IP === "") {
+      Alert.alert("Please input something");
+      return;
+    }
+    await AsyncStorage.setItem("IP", IP);
+  };
+  useEffect(() => {
+    const getIP = async () => {
+      const ip = await AsyncStorage.getItem("IP");
+      if (!ip) return;
+      setIP(ip);
+    };
+    getIP();
+  }, []);
   return (
     <SafeAreaView className="w-full ">
       <ScrollView className="w-full">
@@ -28,8 +47,8 @@ const manage = () => {
                 <Text className="font-pSemiBold">Testing</Text>
               </View>
               <View className="w-full justify-between flex-row mb-2">
-                <Text className="font-pRegular">Email:</Text>
-                <Text className="font-pSemiBold">another testing</Text>
+                <Text className="font-pRegular">IP Address:</Text>
+                <Text className="font-pSemiBold">{IP}</Text>
               </View>
             </View>
           </View>
@@ -37,9 +56,9 @@ const manage = () => {
           <Text className="font-pRegular">Edit your account details here</Text>
           <FormField
             label="IP Address"
-            value={""}
+            value={IP}
             placeholder={"12.198.23432"}
-            handleChange={() => {}}
+            handleChange={setIP}
             otherStyles="w-full mb-5"
             inputStyles="bg-white border border-gray-active"
           />
@@ -53,7 +72,7 @@ const manage = () => {
             </TouchableOpacity>
             <TouchableOpacity
               className="flex-row items-center justify-center space-x-2 rounded-lg bg-green-normal textblack p-3 flex-1"
-              onPress={() => {}}
+              onPress={handleIPSave}
             >
               <Text className="text-white font-medium">Save Changes</Text>
               <ImageIcon icon={icons.Save} tintColor={"white"} />
