@@ -19,11 +19,17 @@ const RefillPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [equivalent, setEquivalent] = useState(0);
   const [value, setValue] = useState("");
-  const { isLoading, isLoggedIn, user } = useGlobalContext();
+  const {
+    isLoading,
+    isLoggedIn,
+    user,
+    accountBalance,
+    deductFromAccount,
+    addToAccount,
+  } = useGlobalContext();
 
   const priceInfo = useMemo(() => {
     const numValue = Number(value);
-
     return {
       price: 1200,
       amount: isUsingL ? equivalent : numValue,
@@ -46,6 +52,18 @@ const RefillPage = () => {
         return;
       }
     }
+    try {
+      if (accountBalance < priceInfo.amount) {
+        Alert.alert("Error", "Insufficient funds. Please top up your account");
+        return;
+      }
+
+      deductFromAccount(priceInfo.amount);
+    } catch (error) {
+      const newError = error as any;
+      Alert.alert("Error", newError.message || "An unknown error occurred");
+    }
+
     setIsSubmitting(true);
     try {
       const result = await createFuel(
@@ -62,6 +80,7 @@ const RefillPage = () => {
       });
     } catch (error) {
       const newError = error as any;
+      addToAccount(priceInfo.amount);
       Alert.alert("Error", newError.message || "An unknown error occurred");
     } finally {
       setIsSubmitting(false);

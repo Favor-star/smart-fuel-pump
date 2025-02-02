@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Pressable } from "react-native";
+import { View, Text, TouchableOpacity, Pressable, Alert } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
@@ -8,14 +8,31 @@ import Button from "@/components/CustomButton";
 import icons from "@/constants/icons";
 import { ScrollView } from "react-native";
 import { StatusBar } from "expo-status-bar";
-const RefillPage = () => {
-  const handleRefillComplete = () => {
-    router.push("/success");
-  };
-
+import { useGlobalContext } from "@/context/GlobalProvider";
+const WalletPage = () => {
+  const { accountBalance, addToAccount } = useGlobalContext();
   const [amount, setAmount] = useState(0);
-  const handleChange = (text: string) => {
+  const [mobileNumber, setMobileNumber] = useState("");
+  const handleAmountChange = (text: string) => {
     setAmount(parseInt(text) || 0);
+  };
+  const handleMobileNumberChange = (text: string) => {
+    setMobileNumber(text);
+  };
+  const handleDeposit = async () => {
+    if (amount <= 0) {
+      console.log(amount);
+      Alert.alert("Error", "Please enter a valid amount");
+      return;
+    }
+    if (mobileNumber.length < 10) {
+      Alert.alert(
+        "Error",
+        "Please enter a valid phone number. Format is 07XXXXXXXX"
+      );
+      return;
+    }
+    await addToAccount(amount);
   };
   return (
     <SafeAreaView className="h-screen px-3 pt-1 w-full bg-background">
@@ -36,7 +53,7 @@ const RefillPage = () => {
             <View className="w-full p-4 bg-white rounded-xl  h-fit items-center justify-center">
               <View className="w-full justify-between flex-row mb-2">
                 <Text>Balance:</Text>
-                <Text className="font-semibold">5000.00 RWF</Text>
+                <Text className="font-semibold">{accountBalance} RWF</Text>
               </View>
               <View className="w-full justify-between flex-row mb-2">
                 <Text>Credits</Text>
@@ -64,21 +81,23 @@ const RefillPage = () => {
               label="Amount"
               value={amount.toString()}
               placeholder="Amount"
-              handleChange={handleChange}
+              handleChange={handleAmountChange}
+              isNumeric={true}
               otherStyles="w-full mb-5"
               inputStyles="bg-white border border-gray-active"
             />
             <FormField
               label="Phone Number"
-              value={amount.toString()}
+              value={mobileNumber}
+              isNumeric={true}
               placeholder="Phone Number"
-              handleChange={handleChange}
+              handleChange={handleMobileNumberChange}
               otherStyles="w-full"
               inputStyles="bg-white border border-gray-active"
             />
             <Button
               title="Process Deposit"
-              onPress={() => console.log("Payment processes")}
+              onPress={handleDeposit}
               otherStyles="mt-5"
               icon={icons.HandCoins}
             />
@@ -144,4 +163,4 @@ const RefillPage = () => {
   );
 };
 
-export default RefillPage;
+export default WalletPage;
